@@ -1,0 +1,24 @@
+name: Auto Build Repo
+on:
+  push:
+    branches: [ main, master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dpkg-dev
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev
+      - name: Generate Packages
+        run: |
+          dpkg-scanpackages -m . > Packages
+          bzip2 -c9 Packages > Packages.bz2
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add Packages Packages.bz2
+          git commit -m "Auto generate Packages" || exit 0
+          git push
