@@ -1,0 +1,8 @@
+Origin: 我的专属源
+Label: 我的专属源
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm
+Components: main
+Description: 这是我的专属自用插件源
